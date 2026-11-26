@@ -13,7 +13,7 @@ BNO085 --I2C--> ESP32 --USB serial (921600)--> PC: bno085_driver --> /imu/data, 
 | Path | Purpose |
 |------|---------|
 | `esp32_bno085_firmware/esp32_bno085_firmware.ino` | Arduino firmware for the ESP32 |
-| `src/bno085_driver/` | ROS 2 (`ament_python`) driver package |
+| `src/bno085_driver/` | ROS 2 (`ament_cmake`, C++17) driver package |
 
 ## Hardware (I2C)
 
@@ -70,6 +70,7 @@ Quaternion is unitless, gyro is in rad/s, accel is in m/s² (includes gravity), 
 ```bash
 source /opt/ros/humble/setup.bash
 cd bno08x_ros2_driver   # repository root (a colcon workspace)
+rosdep install --from-paths src --ignore-src -r -y
 colcon build --packages-select bno085_driver
 source install/setup.bash
 ros2 launch bno085_driver bno085.launch.py
@@ -96,7 +97,7 @@ Set in `src/bno085_driver/config/bno085.yaml`.
 | Parameter | Default | Description |
 |-----------|---------|-------------|
 | `port` | `/dev/ttyACM0` | Serial device |
-| `baud` | `921600` | Must match the firmware |
+| `baud` | `921600` | Must match the firmware; standard rates from 9600 to 2000000 |
 | `frame_id` | `imu_link` | Frame in message headers |
 | `topic` | `imu/data` | IMU topic |
 | `rpy_topic` | `imu/rpy` | Roll/pitch/yaw topic |
@@ -120,6 +121,13 @@ ros2 topic echo /imu/rpy
 ## License
 
 Gahan AI Non-Commercial Software License, see [LICENSE.md](./LICENSE.md).
+
+## Test
+
+```bash
+colcon test --packages-select bno085_driver
+colcon test-result --verbose
+```
 
 ## Roadmap
 
