@@ -1,0 +1,13 @@
+bno085_node:
+  ros__parameters:
+    port: /dev/ttyACM0
+    baud: 921600
+    frame_id: imu_link
+    topic: imu/data
+    orientation_stddev: 0.01     # rad
+    angular_velocity_stddev: 0.005  # rad/s
+    linear_acceleration_stddev: 0.05  # m/s^2
+    rpy_topic: imu/rpy
+    rpy_degrees: false
+    mag_topic: imu/mag
+    mag_scale: 1.0e-6            # firmware uT -> Tesla
